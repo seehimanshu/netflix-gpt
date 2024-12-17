@@ -2,8 +2,9 @@
 
 - Create React App
 - Configured TailwindCSS
-
-
+- Header
+- Login form
+- sing up form
 # Features
 
 - Browser(Only comes after authentications)
