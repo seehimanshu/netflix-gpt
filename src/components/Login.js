@@ -1,14 +1,19 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState } from 'react';
 import checkValidateData from '../utils/validate';
 import Header from './Header';
 import { auth } from '../utils/fireBase';
-// import {checkValidateData} from '../utils/validate';
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword,updateProfile } from "firebase/auth";
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { addUser } from '../utils/UserSlice';
 
 const Login = () => {
     const[IsSignInForm,setIsSignInForm]=useState(true);
     const[ErrorMessage,setErrorMessage]=useState(null);
+    const navigate= useNavigate();
+    const dispatch=useDispatch();
+
 
     const email=useRef(null);
     const password=useRef(null);
@@ -38,11 +43,23 @@ const Login = () => {
         if(!IsSignInForm){
             //sign up logic
             
-            createUserWithEmailAndPassword(auth, email.current.value,password.current.value)
+            createUserWithEmailAndPassword(auth, email.current.value,password.current.value,)
             .then((userCredential) => {
                 // Signed up 
                 const user = userCredential.user;
-                console.log(user);
+
+                updateProfile(user, {
+                    displayName: FullName.current.value, photoURL: "https://www.google.com/imgres?q=food%20app%20logo&imgurl=https%3A%2F%2Fimg.freepik.com%2Fpremium-vector%2Ffood-ordering-app-logo-with-points-fork-shapes-center_666184-195.jpg&imgrefurl=https%3A%2F%2Fwww.freepik.com%2Fpremium-vector%2Ffood-ordering-app-logo-with-points-fork-shapes-center_38183735.htm&docid=JJfY7bmuofLlJM&tbnid=k9_pZ-l-HHmOvM&vet=12ahUKEwix6cne3LGKAxXu1jgGHXtsDdkQM3oECBUQAA..i&w=626&h=626&hcb=2&ved=2ahUKEwix6cne3LGKAxXu1jgGHXtsDdkQM3oECBUQAA"
+                  }).then(() => {
+                    // Profile updated!
+                    const {uid,email,displayName ,photoURL} = auth.currentUser;
+                    dispatch(addUser({ uid:uid, email:email, displayName:displayName , photoURL:photoURL, }));
+                    navigate("/browse")
+                  }).catch((error) => {
+                    // An error occurred
+                    setErrorMessage(error.message);
+                  });
+                
             })
             .catch((error) => {
                 const errorCode = error.code;
@@ -60,6 +77,7 @@ const Login = () => {
                 // Signed in 
                 const user = userCredential.user;
                 console.log(user);
+                navigate("/browse")
                 
             })
             .catch((error) => {
@@ -67,6 +85,7 @@ const Login = () => {
                 const errorMessage = error.message;
 
                 setErrorMessage(errorCode + "-" + errorMessage);
+                // setErrorMessage("Please enter correct password")
             });
         }
 
