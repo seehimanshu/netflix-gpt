@@ -4,14 +4,14 @@ import Header from './Header';
 import { auth } from '../utils/fireBase';
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { signInWithEmailAndPassword,updateProfile } from "firebase/auth";
-import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addUser } from '../utils/UserSlice';
+import { BODY_IMG } from '../utils/constants';
 
 const Login = () => {
     const[IsSignInForm,setIsSignInForm]=useState(true);
     const[ErrorMessage,setErrorMessage]=useState(null);
-    const navigate= useNavigate();
+    
     const dispatch=useDispatch();
 
 
@@ -49,12 +49,13 @@ const Login = () => {
                 const user = userCredential.user;
 
                 updateProfile(user, {
-                    displayName: FullName.current.value, photoURL: "https://www.google.com/imgres?q=food%20app%20logo&imgurl=https%3A%2F%2Fimg.freepik.com%2Fpremium-vector%2Ffood-ordering-app-logo-with-points-fork-shapes-center_666184-195.jpg&imgrefurl=https%3A%2F%2Fwww.freepik.com%2Fpremium-vector%2Ffood-ordering-app-logo-with-points-fork-shapes-center_38183735.htm&docid=JJfY7bmuofLlJM&tbnid=k9_pZ-l-HHmOvM&vet=12ahUKEwix6cne3LGKAxXu1jgGHXtsDdkQM3oECBUQAA..i&w=626&h=626&hcb=2&ved=2ahUKEwix6cne3LGKAxXu1jgGHXtsDdkQM3oECBUQAA"
+                    displayName: FullName.current.value, 
+                    photoURL: "https://www.google.com/imgres?q=food%20app%20logo&imgurl=https%3A%2F%2Fimg.freepik.com%2Fpremium-vector%2Ffood-ordering-app-logo-with-points-fork-shapes-center_666184-195.jpg&imgrefurl=https%3A%2F%2Fwww.freepik.com%2Fpremium-vector%2Ffood-ordering-app-logo-with-points-fork-shapes-center_38183735.htm&docid=JJfY7bmuofLlJM&tbnid=k9_pZ-l-HHmOvM&vet=12ahUKEwix6cne3LGKAxXu1jgGHXtsDdkQM3oECBUQAA..i&w=626&h=626&hcb=2&ved=2ahUKEwix6cne3LGKAxXu1jgGHXtsDdkQM3oECBUQAA"
                   }).then(() => {
                     // Profile updated!
                     const {uid,email,displayName ,photoURL} = auth.currentUser;
                     dispatch(addUser({ uid:uid, email:email, displayName:displayName , photoURL:photoURL, }));
-                    navigate("/browse")
+                    
                   }).catch((error) => {
                     // An error occurred
                     setErrorMessage(error.message);
@@ -76,8 +77,8 @@ const Login = () => {
             .then((userCredential) => {
                 // Signed in 
                 const user = userCredential.user;
-                console.log(user);
-                navigate("/browse")
+                
+                
                 
             })
             .catch((error) => {
@@ -97,7 +98,7 @@ const Login = () => {
 
         <div className=' absolute'> 
             <Header/>
-            <img src='https://assets.nflxext.com/ffe/siteui/vlv3/729ce5c2-d831-436a-8c9d-f38fea0b99b3/web/IN-en-20241209-TRIFECTA-perspective_4aef76eb-7d5b-4be0-93c0-5f67320fd878_large.jpg'
+            <img src={BODY_IMG}
             alt='logo'/>
         </div>
         <form onSubmit={(e)=> e.preventDefault()} className='w-3/12 absolute p-12 bg-black my-36 mx-auto right-0 left-0 text-white bg-opacity-80 rounded-lg ' >
