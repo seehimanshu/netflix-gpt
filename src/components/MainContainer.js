@@ -11,9 +11,12 @@ const MainContainer = () => {
     // console.log(mainMovie);
     const {original_title , overview, id} =mainMovie;
   return (
-    <div className=''>
-        <VideoTitle title={original_title} overview ={overview}/>
-        <VideoBackground movieId={id}/>
+    <div className='relative  w-full'>
+        <div className=''>
+          <VideoTitle title={original_title} overview ={overview}/>
+          <VideoBackground movieId={id}/>
+        </div>
+        
     </div>
   )
 }
