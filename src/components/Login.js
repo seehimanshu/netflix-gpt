@@ -50,7 +50,7 @@ const Login = () => {
 
                 updateProfile(user, {
                     displayName: FullName.current.value, 
-                    photoURL: "https://www.google.com/imgres?q=food%20app%20logo&imgurl=https%3A%2F%2Fimg.freepik.com%2Fpremium-vector%2Ffood-ordering-app-logo-with-points-fork-shapes-center_666184-195.jpg&imgrefurl=https%3A%2F%2Fwww.freepik.com%2Fpremium-vector%2Ffood-ordering-app-logo-with-points-fork-shapes-center_38183735.htm&docid=JJfY7bmuofLlJM&tbnid=k9_pZ-l-HHmOvM&vet=12ahUKEwix6cne3LGKAxXu1jgGHXtsDdkQM3oECBUQAA..i&w=626&h=626&hcb=2&ved=2ahUKEwix6cne3LGKAxXu1jgGHXtsDdkQM3oECBUQAA"
+                    photoURL: "https://example.com/path-to-default-avatar.jpg",
                   }).then(() => {
                     // Profile updated!
                     const {uid,email,displayName ,photoURL} = auth.currentUser;
