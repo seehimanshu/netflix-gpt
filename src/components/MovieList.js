@@ -11,6 +11,7 @@ const MovieList = ({title , movies}) => {
             <div className='flex '>
                 {
                     movies ? (movies.map((movie)=><MovieCard  
+                    key={movie.id}
                     posterPath={movie?.poster_path}/>)) : (
                  <p>No movies available</p> )
                 }
